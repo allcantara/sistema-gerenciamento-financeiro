@@ -7,7 +7,7 @@ const headCells = [
   { id: 1, numeric: false, label: "Alíquota" },
   { id: 2, numeric: true, label: "Valor do lote" },
   { id: 3, numeric: true, label: "Data" },
-  { id: 4, numeric: true, label: "Total" },
+  { id: 4, numeric: true, label: "Taxa" },
   { id: 5, numeric: true, label: "Imposto pago?" },
 ];
 

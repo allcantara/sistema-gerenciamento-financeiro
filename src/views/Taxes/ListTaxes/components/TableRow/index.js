@@ -44,7 +44,7 @@ function TableRowComponent({ row, className: classes }) {
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(row.total)}
+          }).format(row.value * (row.taxe / 100))}
         </TableCell>
         <TableCell align="right">{isTaxesPayment(row.isTaxes)}</TableCell>
       </TableRow>

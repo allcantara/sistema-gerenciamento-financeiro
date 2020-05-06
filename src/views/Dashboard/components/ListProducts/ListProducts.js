@@ -17,14 +17,16 @@ import {
   TableRowComponent,
 } from "./components";
 
-function createData(name, value, amount, valueLote, date) {
-  return { name, value, amount, valueLote, date };
+function createData(name, value, amount, tax, valueLote, date) {
+  const totalSale = valueLote * amount;
+  let final = totalSale + valueLote * (tax / 100);
+  return { name, value, amount, tax, valueLote, date, final };
 }
 
 const rows = [
-  createData("Cupcake", 2, 200, 67, "12/06/2020"),
-  createData("Donut", 2, 250, 51, "05/05/2020"),
-  createData("Eclair", 1.2, 100, 24, "23/04/2020"),
+  createData("Cupcake", 2, 2, 18, 67, "12/06/2020"),
+  createData("Donut", 2, 3, 18, 51, "05/05/2020"),
+  createData("Eclair", 1.2, 2, 18, 24, "23/04/2020"),
 ];
 
 const useStyles = makeStyles((theme) => ({

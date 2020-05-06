@@ -38,8 +38,15 @@ function TableRowComponent({ row, className: classes }) {
             currency: "BRL",
           }).format(row.valueLote)}
         </TableCell>
+        <TableCell align="right">{row.tax}%</TableCell>
         <TableCell align="right">{row.amount}</TableCell>
         <TableCell align="right">{row.date}</TableCell>
+        <TableCell align="right">
+          {Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(row.final)}
+        </TableCell>
       </TableRow>
       <ModalComponent
         open={open}
