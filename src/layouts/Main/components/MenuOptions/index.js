@@ -21,8 +21,8 @@ export default () => {
       icon: <DashboardIcon />,
     },
     {
-      route: "Produtos",
-      redirect: "/products",
+      route: "Impostos",
+      redirect: "/taxes",
       icon: <StarIcon />,
     },
   ];

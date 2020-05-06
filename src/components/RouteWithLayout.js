@@ -16,7 +16,7 @@ const RouteWithLayout = (props) => {
       render={(matchProps) => {
         return !isAuthenticate() ? (
           <MinimalLayout>
-            <LoginView />
+            <LoginView {...matchProps} />
           </MinimalLayout>
         ) : (
           <Layout>

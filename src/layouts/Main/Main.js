@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: "100%", // `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
@@ -32,14 +32,22 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    zIndex: 0,
+    [theme.breakpoints.up("sm")]: {
+      marginTop: 64,
+    },
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    [theme.breakpoints.up("xs")]: {
+      marginTop: 40,
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginTop: 50,
+    },
   },
 }));
 
