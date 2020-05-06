@@ -8,7 +8,6 @@ import ModalComponent from "../Modal/index";
 
 function TableRowComponent({ row, className: classes }) {
   const [open, setOpen] = React.useState(false);
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -33,19 +32,19 @@ function TableRowComponent({ row, className: classes }) {
         tabIndex={-1}
         className={classes.th}
       >
-        <TableCell align="right">{`${row.valueLote}%`}</TableCell>
+        <TableCell align="left">{`${row.taxe}%`}</TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(row.amount)}
+          }).format(row.value)}
         </TableCell>
-        <TableCell align="right">{row.valueLote}</TableCell>
+        <TableCell align="right">{row.date}</TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(row.date)}
+          }).format(row.total)}
         </TableCell>
         <TableCell align="right">{isTaxesPayment(row.isTaxes)}</TableCell>
       </TableRow>

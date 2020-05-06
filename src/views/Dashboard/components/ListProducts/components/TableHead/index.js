@@ -6,8 +6,8 @@ import TableHead from "@material-ui/core/TableHead";
 const headCells = [
   { id: 1, numeric: false, label: "Distribuidor" },
   { id: 2, numeric: true, label: "Valor unitário" },
-  { id: 3, numeric: true, label: "Quantidade comprada" },
-  { id: 4, numeric: true, label: "Valor do lote" },
+  { id: 3, numeric: true, label: "Valor do lote" },
+  { id: 4, numeric: true, label: "Quantidade comprada" },
   { id: 5, numeric: true, label: "Data da compra" },
 ];
 

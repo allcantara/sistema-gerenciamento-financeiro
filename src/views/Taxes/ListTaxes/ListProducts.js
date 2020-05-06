@@ -4,6 +4,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
+import Typography from '@material-ui/core/Typography'
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -17,14 +18,14 @@ import {
   TableRowComponent,
 } from "./components";
 
-function createData(name, value, amount, valueLote, date, isTaxes) {
-  return { name, value, amount, valueLote, date, isTaxes };
+function createData(taxe, value, date, total, isTaxes) {
+  return { taxe, value, date, total, isTaxes };
 }
 
 const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3, false),
-  createData("Donut", 452, 25.0, 51, 4.9, false),
-  createData("Eclair", 262, 16.0, 24, 6.0, true),
+  createData(6, 300, "02/02/2020", 350, false),
+  createData(6, 200, "02/02/2020", 250, true),
+  createData(6, 100, "02/02/2020", 150, true),
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: "100%",
     marginBottom: theme.spacing(2),
+    marginTop: 12
   },
   table: {
     minWidth: 500,
@@ -67,7 +69,7 @@ export default function TableComponent() {
   const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -85,6 +87,13 @@ export default function TableComponent() {
 
   return (
     <div className={classes.root}>
+      <Typography
+        className={classes.title}
+        variant="h6"
+        component="div"
+      >
+        Impostos pagos
+      </Typography>
       <Paper className={classes.paper}>
         <TableToolbarComponent />
         <TableContainer>

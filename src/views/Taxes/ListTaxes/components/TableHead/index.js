@@ -4,7 +4,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 
 const headCells = [
-  { id: 1, numeric: true, label: "Alíquota" },
+  { id: 1, numeric: false, label: "Alíquota" },
   { id: 2, numeric: true, label: "Valor do lote" },
   { id: 3, numeric: true, label: "Data" },
   { id: 4, numeric: true, label: "Total" },

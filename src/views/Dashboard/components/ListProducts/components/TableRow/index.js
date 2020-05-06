@@ -32,13 +32,13 @@ function TableRowComponent({ row, className: classes }) {
             currency: "BRL",
           }).format(row.value)}
         </TableCell>
-        <TableCell align="right">{row.amount}</TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
           }).format(row.valueLote)}
         </TableCell>
+        <TableCell align="right">{row.amount}</TableCell>
         <TableCell align="right">{row.date}</TableCell>
       </TableRow>
       <ModalComponent

@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
-import Typography from "@material-ui/core/Typography";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -41,7 +39,6 @@ function FadeComponent({ handleClose }) {
   const [amount, setAmount] = useState(0);
   const [valueLote, setValueLote] = useState(0);
   const [date, setDate] = useState(new Date());
-  const [taxes, setTaxes] = useState(false);
   const classes = useStyles();
 
   const handleDateChange = (date) => {
@@ -98,10 +95,6 @@ function FadeComponent({ handleClose }) {
               }}
             />
           </MuiPickersUtilsProvider>
-          <div className={classes.switch}>
-            <Typography>Imposto pago?</Typography>
-            <Switch checked={taxes} onChange={() => setTaxes(!taxes)} />
-          </div>
         </div>
       </div>
       <div className={classes.actions}>

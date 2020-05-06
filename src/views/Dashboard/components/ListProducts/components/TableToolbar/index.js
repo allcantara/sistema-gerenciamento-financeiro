@@ -26,7 +26,7 @@ function TableToolbar() {
         id="tableTitle"
         component="div"
       >
-        Consultas
+        Compras realizadas
       </Typography>
       <ButtonComponent />
     </Toolbar>
