@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 8,
   },
   switch: {
-    marginTop: 5,
+    marginTop: 10,
   },
 }));
 
@@ -113,7 +113,7 @@ function FadeComponent({ product: item, handleClose }) {
             />
           </MuiPickersUtilsProvider>
           <div className={classes.switch}>
-            <Typography>Imposto pago?</Typography>
+            <Typography>Marcar taxa do distribuidor como paga:</Typography>
             <Switch checked={isTaxes} onChange={() => setIsTaxes(!isTaxes)} />
           </div>
         </div>

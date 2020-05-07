@@ -32,12 +32,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FadeComponent({ product, handleClose }) {
-  const [date, setDate] = useState(product.date);
-  const [tax, setTax] = useState(product.tax);
-  const [total, setTotal] = useState(product.total);
-  const [taxeSale, setTaxeSale] = useState(product.taxeSale);
+  const date = product.date;
+  const tax = product.tax;
+  const total = product.total;
+  const taxeSale = product.taxeSale;
   const [isTaxes, setIsTaxes] = useState(product.isTaxes);
   const classes = useStyles();
+  let [{ month }] = listMonths.filter(
+    (item) => item.number - 1 === product.date.getMonth()
+  );
 
   const handleSave = () => {
     handleClose();
@@ -71,7 +74,7 @@ function FadeComponent({ product, handleClose }) {
           <TextField
             className={classes.input}
             label="Mês/Ano de referência"
-            value={`${listMonths[date.getMonth()]}/${date.getFullYear()}`}
+            value={`${month}/${date.getFullYear()}`}
             disabled={true}
           />
           <TextField

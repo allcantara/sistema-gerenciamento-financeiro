@@ -9,6 +9,10 @@ import { listMonths } from "../utils";
 
 function TableRowComponent({ row, className: classes }) {
   const [open, setOpen] = React.useState(false);
+  let [{ month }] = listMonths.filter(
+    (item) => item.number - 1 === row.date.getMonth()
+  );
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -41,7 +45,7 @@ function TableRowComponent({ row, className: classes }) {
           }).format(row.total)}
         </TableCell>
         <TableCell align="right">
-          {`${listMonths[row.date.getMonth()]}/${row.date.getFullYear()}`}
+          {`${month}/${row.date.getFullYear()}`}
         </TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {

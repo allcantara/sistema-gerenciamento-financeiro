@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
@@ -65,20 +65,37 @@ const useStyles = makeStyles((theme) => ({
 
 function TableToolbar() {
   const classes = useStyles();
-  const [month, setMonth] = useState(listMonths[new Date().getMonth()]);
+  const [month, setMonth] = useState("");
   const [taxe, setTaxe] = useState(false);
-  const { rows, createObject } = useContext(ProductContext);
+  const { rows, setRows } = useContext(ProductContext);
+  const [rowsTemp, setRowsTemp] = useState([...rows]);
+
+  useEffect(() => {
+    let [monthTemp] = listMonths.filter(
+      (item) => item.number - 1 === new Date().getMonth()
+    );
+    setMonth(monthTemp.month);
+  }, []);
 
   const handleChange = (e) => {
     setMonth(e.target.value);
   };
 
   const handleSearch = () => {
-    const list = [...rows];
-    const listFilter = list.filter((item) => item.isTaxe === false);
-    listFilter.map((item) => {
-      createObject({ ...item });
+    let list = [];
+
+    if (rowsTemp.length > 0) {
+      list = [...rowsTemp];
+    } else {
+      setRowsTemp([...rows]);
+      list = [...rows];
+    }
+
+    const listFilter = list.filter((row) => {
+      let [{ number }] = listMonths.filter((item) => item.month === month);
+      return row.isTaxes === taxe && row.date.getMonth() === number - 1;
     });
+    setRows([...listFilter]);
   };
 
   return (
@@ -93,8 +110,8 @@ function TableToolbar() {
         >
           <option aria-label="None" value="" />
           {listMonths.map((item, index) => (
-            <option onClick={() => console.log(item)} key={index} value={item}>
-              {item}
+            <option key={index} value={item.month}>
+              {item.month}
             </option>
           ))}
         </NativeSelect>

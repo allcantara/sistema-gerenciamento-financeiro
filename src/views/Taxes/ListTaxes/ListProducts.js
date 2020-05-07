@@ -106,6 +106,7 @@ export default function TableComponent() {
     <ProductContext.Provider
       value={{
         rows,
+        setRows,
         createObject,
       }}
     >

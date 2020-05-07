@@ -8,9 +8,9 @@ const headCells = [
   { id: 2, numeric: true, label: "Valor unitário" },
   { id: 3, numeric: true, label: "Valor do lote" },
   { id: 4, numeric: true, label: "Alíquota de marca" },
-  { id: 5, numeric: true, label: "Quantidade comprado" },
+  { id: 5, numeric: true, label: "Qtd de lotes comprados" },
   { id: 6, numeric: true, label: "Data da compra" },
-  { id: 7, numeric: true, label: "Total a ser pago" },
+  { id: 7, numeric: true, label: "Total a receber" },
 ];
 
 function TableHeadComponent(props) {

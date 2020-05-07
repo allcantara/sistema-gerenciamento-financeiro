@@ -49,7 +49,13 @@ function FadeComponent({ handleClose }) {
   };
 
   const handleSave = () => {
-    createObject(distributor, valueUnitary, amount, taxeSale, date);
+    createObject(
+      distributor,
+      valueUnitary.replace(",", "."),
+      amount,
+      taxeSale,
+      date
+    );
     handleClose();
   };
 
@@ -79,7 +85,7 @@ function FadeComponent({ handleClose }) {
           />
           <TextField
             className={classes.inputFlex}
-            label="Quantidade"
+            label="Quantidade de lotes"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
