@@ -8,6 +8,7 @@ import {
   Dashboard as DashboardView,
   Taxes as TaxesView,
   Login as LoginView,
+  Register as RegisterView,
 } from "./views";
 
 const Routes = () => {
@@ -33,6 +34,13 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/login"
+      />
+
+      <RouteWithLayout
+        component={RegisterView}
+        exact
+        layout={MinimalLayout}
+        path="/register"
       />
 
       <Redirect to="/not-found" />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -6,28 +6,17 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/core/styles";
-
 import Paper from "@material-ui/core/Paper";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+
+import { DashboardContext } from "../../Dashboard";
 
 import {
   TableToolbarComponent,
   TableHeadComponent,
   TableRowComponent,
 } from "./components";
-
-function createData(name, value, amount, tax, valueLote, date) {
-  const totalSale = valueLote * amount;
-  let final = totalSale + valueLote * (tax / 100);
-  return { name, value, amount, tax, valueLote, date, final };
-}
-
-const rows = [
-  createData("Cupcake", 2, 2, 18, 67, "12/06/2020"),
-  createData("Donut", 2, 3, 18, 51, "05/05/2020"),
-  createData("Eclair", 1.2, 2, 18, 24, "23/04/2020"),
-];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,9 +53,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TableComponent() {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { rows } = useContext(DashboardContext);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [emptyRows, setEmptyRows] = useState(0);
+
+  useEffect(() => {
+    setEmptyRows(
+      rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
+    );
+  }, [page, rows, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,9 +77,6 @@ export default function TableComponent() {
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
   };
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>

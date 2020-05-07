@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
 import InsertChartIcon from "@material-ui/icons/InsertChartOutlined";
+
+import { DashboardContext } from "../../Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TasksProgress = (props) => {
   const { className, ...rest } = props;
+  const { totalTaxes } = useContext(DashboardContext);
 
   const classes = useStyles();
 
@@ -49,7 +52,12 @@ const TasksProgress = (props) => {
             >
               IMPOSTOS PAGOS
             </Typography>
-            <Typography variant="h6">75.5%</Typography>
+            <Typography variant="h6">
+              {Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(totalTaxes)}
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

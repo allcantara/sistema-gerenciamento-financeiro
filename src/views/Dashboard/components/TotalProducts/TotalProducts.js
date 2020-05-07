@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
 import MoneyIcon from "@material-ui/icons/Money";
+
+import { DashboardContext } from "../../Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Budget = (props) => {
   const { className, ...rest } = props;
+  const { totalProducts } = useContext(DashboardContext);
 
   const classes = useStyles();
 
@@ -57,7 +60,12 @@ const Budget = (props) => {
             >
               DESPESAS
             </Typography>
-            <Typography variant="h6">$24,000</Typography>
+            <Typography variant="h6">
+              {Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(totalProducts)}
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

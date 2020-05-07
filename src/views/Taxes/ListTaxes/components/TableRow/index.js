@@ -5,6 +5,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import ModalComponent from "../Modal/index";
+import { listMonths } from "../utils";
 
 function TableRowComponent({ row, className: classes }) {
   const [open, setOpen] = React.useState(false);
@@ -32,19 +33,21 @@ function TableRowComponent({ row, className: classes }) {
         tabIndex={-1}
         className={classes.th}
       >
-        <TableCell align="left">{`${row.taxe}%`}</TableCell>
+        <TableCell align="left">{`${row.tax}%`}</TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(row.value)}
+          }).format(row.total)}
         </TableCell>
-        <TableCell align="right">{row.date}</TableCell>
+        <TableCell align="right">
+          {`${listMonths[row.date.getMonth()]}/${row.date.getFullYear()}`}
+        </TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(row.value * (row.taxe / 100))}
+          }).format(row.taxeSale)}
         </TableCell>
         <TableCell align="right">{isTaxesPayment(row.isTaxes)}</TableCell>
       </TableRow>

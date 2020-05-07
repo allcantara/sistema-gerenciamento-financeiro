@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
+import { DashboardContext } from "../../Dashboard";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 40,
-    backgroundColor: "#3f51b5",
+    backgroundColor: "#43a047",
     color: "#fff",
   },
   content: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: "#fff",
-    color: "blue",
+    color: "#43a047",
     height: 56,
     width: 56,
   },
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalProfit = (props) => {
   const { className, ...rest } = props;
+  const { totalProfit } = useContext(DashboardContext);
 
   const classes = useStyles();
 
@@ -49,7 +52,10 @@ const TotalProfit = (props) => {
               LUCRO TOTAL
             </Typography>
             <Typography color="inherit" variant="h6">
-              $23,200
+              {Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(totalProfit)}
             </Typography>
           </Grid>
           <Grid item>

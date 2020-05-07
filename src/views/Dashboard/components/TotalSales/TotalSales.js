@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
 import PeopleIcon from "@material-ui/icons/PeopleOutlined";
+
+import { DashboardContext } from "../../Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
   },
   avatar: {
-    backgroundColor: "#43a047",
+    backgroundColor: "#65a257",
     height: 56,
     width: 56,
   },
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalUsers = (props) => {
   const { className, ...rest } = props;
+  const { totalSales } = useContext(DashboardContext);
 
   const classes = useStyles();
 
@@ -57,7 +60,12 @@ const TotalUsers = (props) => {
             >
               VENDAS
             </Typography>
-            <Typography variant="h6">1,600</Typography>
+            <Typography variant="h6">
+              {Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(totalSales)}
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

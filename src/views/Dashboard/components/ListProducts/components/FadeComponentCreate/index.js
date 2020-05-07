@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -9,6 +9,8 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+
+import { DashboardContext } from "../../../../Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -34,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FadeComponent({ handleClose }) {
-  const [name, setName] = useState("");
-  const [value, setValue] = useState(0);
-  const [amount, setAmount] = useState(0);
-  const [valueLote, setValueLote] = useState(0);
   const [date, setDate] = useState(new Date());
+  const { createObject } = useContext(DashboardContext);
+  const [distributor, setDistributor] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [taxeSale, setTaxeSale] = useState(0);
+  const [valueUnitary, setValueUnitary] = useState(0);
   const classes = useStyles();
 
   const handleDateChange = (date) => {
@@ -46,6 +49,7 @@ function FadeComponent({ handleClose }) {
   };
 
   const handleSave = () => {
+    createObject(distributor, valueUnitary, amount, taxeSale, date);
     handleClose();
   };
 
@@ -56,22 +60,22 @@ function FadeComponent({ handleClose }) {
           <TextField
             className={classes.input}
             label="Distribuidor"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={distributor}
+            onChange={(e) => setDistributor(e.target.value)}
           />
           <TextField
-            className={classes.inputFlex}
-            label="Preço do lote"
-            value={valueLote}
-            onChange={(e) => setValueLote(e.target.value)}
+            className={classes.input}
+            label="Taxa do distribuidor(%)"
+            value={taxeSale}
+            onChange={(e) => setTaxeSale(e.target.value)}
           />
         </div>
         <div>
           <TextField
             className={classes.input}
             label="Valor unitário"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            value={valueUnitary}
+            onChange={(e) => setValueUnitary(e.target.value)}
           />
           <TextField
             className={classes.inputFlex}
@@ -85,7 +89,7 @@ function FadeComponent({ handleClose }) {
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
-              format="MM/dd/yyyy"
+              format="dd/MM/yyyy"
               id="date-picker-inline"
               label="Data da compra"
               value={date}

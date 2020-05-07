@@ -41,11 +41,7 @@ function ModalComponent(props) {
       <Fade in={open}>
         <div className={classes.paper}>
           <h2 id="transition-modal-title">Dados do registro</h2>
-          <FadeComponent
-            handleClose={handleClose}
-            product={product}
-            method="UPDATE"
-          />
+          <FadeComponent handleClose={handleClose} product={product} />
         </div>
       </Fade>
     </Modal>

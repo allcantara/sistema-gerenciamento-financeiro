@@ -10,13 +10,15 @@ import "./style.css";
 export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const history = useHistory();
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login");
-    history.push("/dashboard");
+    history.push("/login");
+    console.log("register");
   };
 
   const notificacoes = (message, variant) => {
@@ -38,9 +40,24 @@ export default () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="register-container">
       <form onSubmit={handleSubmit}>
         <TextField
+          className="input"
+          label="Seu primeiro nome"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          className="input"
+          label="Seu sobrenome..."
+          variant="outlined"
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
+        />
+        <TextField
+          className="input"
           label="Seu e-mail..."
           type="text"
           variant="outlined"
@@ -60,15 +77,6 @@ export default () => {
           type="submit"
           variant="contained"
           color="primary"
-        >
-          Entrar
-        </Button>
-        <Button
-          className="button"
-          type="button"
-          variant="contained"
-          color="default"
-          onClick={() => history.push("/register")}
         >
           Cadastrar
         </Button>
