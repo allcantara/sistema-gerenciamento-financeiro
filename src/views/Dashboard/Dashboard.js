@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 
@@ -10,25 +10,36 @@ import {
   ListProducts,
 } from "./components";
 
+import { AppContext } from '../../App'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // padding: theme.spacing(4),
   },
 }));
 
+
 export const DashboardContext = createContext();
 
 const Dashboard = () => {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
-  const [totalSales, setTotalSales] = useState(0);
+  /*const [totalSales, setTotalSales] = useState(0);
   const [totalTaxes, setTotalTaxes] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [totalProfit, setTotalProfit] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);*/
 
-  useEffect(() => {
+  const {
+    updateDashboad,
+    totalSales,
+    totalTaxes,
+    totalProducts,
+    totalProfit
+  } = useContext(AppContext)
+
+  /*useEffect(() => {
     updateDashboad();
-  }, []);
+  }, []);*/
 
   function createObject(distributor, valueUnitary, amount, taxeSale, date) {
     let object = {};
@@ -52,12 +63,12 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function updateDashboad() {
+  /*async function updateDashboad() {
     setTotalProducts(300);
     setTotalProfit(500);
     setTotalSales(230);
     setTotalTaxes(120);
-  }
+  }*/
 
   return (
     <DashboardContext.Provider

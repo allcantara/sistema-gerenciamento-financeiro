@@ -4,10 +4,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 
+import { AppContext } from '../../../../App'
 import { MainContext } from "../../Main";
 
 export default () => {
   const { classes, handleDrawerToggle } = useContext(MainContext);
+  const{ nameUser } = useContext(AppContext)
 
   return (
     <>
@@ -24,7 +26,7 @@ export default () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Bruno Alcântara
+            {nameUser}
           </Typography>
         </Toolbar>
       </AppBar>

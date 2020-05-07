@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
@@ -7,15 +7,18 @@ import Button from "@material-ui/core/Button";
 import { useSnackbar } from "notistack";
 import "./style.css";
 
+import {AppContext} from '../../App'
+
 export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { setNameUser } = useContext(AppContext)
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login");
+    setNameUser("Bruno Alcântara Context")
     history.push("/dashboard");
   };
 
