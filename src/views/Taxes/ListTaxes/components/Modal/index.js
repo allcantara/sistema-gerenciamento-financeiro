@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ModalComponent({ open, handleClose, product }) {
+function ModalComponent({ open, handleClose, row }) {
   const classes = useStyles();
 
   return (
@@ -40,7 +40,7 @@ function ModalComponent({ open, handleClose, product }) {
       <Fade in={open}>
         <div className={classes.paper}>
           <h2 id="transition-modal-title">Dados do registro</h2>
-          <FadeComponent handleClose={handleClose} product={product} />
+          <FadeComponent handleClose={handleClose} row={row} />
         </div>
       </Fade>
     </Modal>
@@ -48,7 +48,7 @@ function ModalComponent({ open, handleClose, product }) {
 }
 
 ModalComponent.propTypes = {
-  product: PropTypes.object.isRequired,
+  row: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleOpen: PropTypes.func.isRequired,
   open: PropTypes.bool,

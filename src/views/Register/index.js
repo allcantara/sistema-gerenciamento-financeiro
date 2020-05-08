@@ -33,14 +33,14 @@ export default () => {
       });
 
       if (response.status !== 200) {
-        showMessage("Falha ao fazer login!", "warning");
+        showMessage("Ocorreu um erro, tente novamente!", "warning");
         return;
       }
 
       history.push("/login");
     } catch (error) {
       console.log(error);
-      showMessage("Falha ao fazer login!", "error");
+      showMessage("Falha ao criar cadastro!", "error");
       return;
     }
   };

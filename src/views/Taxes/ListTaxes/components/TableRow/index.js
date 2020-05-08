@@ -37,15 +37,15 @@ function TableRowComponent({ row, className: classes }) {
         tabIndex={-1}
         className={classes.th}
       >
-        <TableCell align="left">{`${row.tax * 100}%`}</TableCell>
+        <TableCell align="left">{`${row.tax}%`}</TableCell>
+        <TableCell align="right">
+          {`${month}/${new Date(row.date).getFullYear()}`}
+        </TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
           }).format(row.total)}
-        </TableCell>
-        <TableCell align="right">
-          {`${month}/${new Date(row.date).getFullYear()}`}
         </TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
@@ -57,7 +57,7 @@ function TableRowComponent({ row, className: classes }) {
       </TableRow>
       <ModalComponent
         open={open}
-        product={row}
+        row={row}
         handleClose={handleClose}
         handleOpen={handleOpen}
       />

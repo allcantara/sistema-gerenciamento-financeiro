@@ -49,7 +49,7 @@ const TotalProfit = (props) => {
               gutterBottom
               variant="body2"
             >
-              LUCRO TOTAL
+              LUCRO
             </Typography>
             <Typography color="inherit" variant="h6">
               {Intl.NumberFormat("pt-BR", {

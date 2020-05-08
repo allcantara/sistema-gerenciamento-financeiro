@@ -45,16 +45,16 @@ function FadeComponent({ product: item, handleClose }) {
   const [date, setDate] = useState(new Date());
   const [distributor, setDistributor] = useState("");
   const [amount, setAmount] = useState(0);
-  const [taxeSale, setTaxeSale] = useState(0);
-  const [valueUnitary, setValueUnitary] = useState(0);
+  const [taxeSale, setTaxeSale] = useState("");
+  const [valueUnitary, setValueUnitary] = useState("");
   const [isTaxes, setIsTaxes] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
     setDate(item.date);
     setDistributor(item.distributor);
-    setTaxeSale(item.taxeSale);
-    setValueUnitary(item.valueUnitary);
+    setTaxeSale(String(item.taxeSale).replace(".", ","));
+    setValueUnitary(String(item.valueUnitary.toFixed(2)).replace(".", ","));
     setAmount(item.amount);
     setIsTaxes(item.isTaxes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,13 +64,44 @@ function FadeComponent({ product: item, handleClose }) {
     setDate(d);
   };
 
-  const handleSave = () => {
-    handleClose();
+  const handleSave = async () => {
+    try {
+      const data = {
+        user_id: item.user_id,
+        isTaxes,
+        distributor,
+        valueUnitary,
+        amount,
+        taxeSale,
+        date,
+      };
+      const response = await api.put(`/sales/${item._id}`, data);
+      if (response.status !== 200) {
+        showMessage("Falha ao atualizar!", "warning");
+        handleClose();
+        return;
+      }
+
+      showMessage("Venda atualizada com sucesso!", "success");
+      updateDashboad();
+      getListSales();
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      showMessage("Falha ao atualizar!", "error");
+      handleClose();
+    }
   };
 
   const handleDelete = async () => {
     try {
       const response = await api.delete(`/sales/${item._id}`);
+
+      if (response.status === 202) {
+        showMessage(response.data.message, "warning");
+        handleClose();
+        return;
+      }
       if (response.status !== 200) {
         showMessage("Falha ao excluir!", "warning");
         handleClose();
@@ -96,27 +127,27 @@ function FadeComponent({ product: item, handleClose }) {
             className={classes.input}
             label="Distribuidor"
             value={distributor}
-            onChange={(e) => setDistributor(e.target.value)}
+            disabled
           />
           <TextField
             className={classes.input}
             label="Taxa do distribuidor(%)"
-            value={taxeSale}
-            onChange={(e) => setTaxeSale(e.target.value)}
+            value={`${taxeSale}%`}
+            disabled
           />
         </div>
         <div>
           <TextField
             className={classes.input}
             label="Valor unitário"
-            value={valueUnitary}
-            onChange={(e) => setValueUnitary(e.target.value)}
+            value={`R$ ${valueUnitary}`}
+            disabled
           />
           <TextField
             className={classes.inputFlex}
             label="Quantidade de lotes"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            disabled
           />
         </div>
         <div>
@@ -128,6 +159,7 @@ function FadeComponent({ product: item, handleClose }) {
               id="date-picker-inline"
               label="Data da compra"
               value={date}
+              disabled
               onChange={handleDateChange}
               KeyboardButtonProps={{
                 "aria-label": "change date",
