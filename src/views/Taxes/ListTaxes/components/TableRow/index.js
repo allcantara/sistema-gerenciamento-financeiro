@@ -10,7 +10,7 @@ import { listMonths } from "../utils";
 function TableRowComponent({ row, className: classes }) {
   const [open, setOpen] = React.useState(false);
   let [{ month }] = listMonths.filter(
-    (item) => item.number - 1 === row.date.getMonth()
+    (item) => item.number - 1 === new Date(row.date).getMonth()
   );
 
   const handleOpen = () => {
@@ -37,7 +37,7 @@ function TableRowComponent({ row, className: classes }) {
         tabIndex={-1}
         className={classes.th}
       >
-        <TableCell align="left">{`${row.tax}%`}</TableCell>
+        <TableCell align="left">{`${row.tax * 100}%`}</TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -45,7 +45,7 @@ function TableRowComponent({ row, className: classes }) {
           }).format(row.total)}
         </TableCell>
         <TableCell align="right">
-          {`${month}/${row.date.getFullYear()}`}
+          {`${month}/${new Date(row.date).getFullYear()}`}
         </TableCell>
         <TableCell align="right">
           {Intl.NumberFormat("pt-BR", {

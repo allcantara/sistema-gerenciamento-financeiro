@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import { useSnackbar } from "notistack";
 import "./style.css";
 
+import api from "../../services/api";
+
 export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const history = useHistory();
@@ -17,11 +19,33 @@ export default () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    history.push("/login");
-    console.log("register");
+    try {
+      if (!name || !surname || !email || !password) {
+        showMessage("Todos os campos são obrigatórios!", "error");
+        return;
+      }
+
+      const response = await api.post("/users", {
+        name,
+        surname,
+        email,
+        password,
+      });
+
+      if (response.status !== 200) {
+        showMessage("Falha ao fazer login!", "warning");
+        return;
+      }
+
+      history.push("/login");
+    } catch (error) {
+      console.log(error);
+      showMessage("Falha ao fazer login!", "error");
+      return;
+    }
   };
 
-  const notificacoes = (message, variant) => {
+  const showMessage = (message, variant) => {
     enqueueSnackbar(message, {
       variant, // success, error, info, warning...
       anchorOrigin: {
@@ -30,10 +54,13 @@ export default () => {
       }, // Localização em que a mensagem irá aparecer...
       action: (
         <button
-          className="btn btn-default text-light"
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+          }}
           onClick={() => closeSnackbar()}
         >
-          <FontAwesomeIcon icon={faWindowClose} />
+          <FontAwesomeIcon icon={faWindowClose} color="#fff" />
         </button>
       ),
     });

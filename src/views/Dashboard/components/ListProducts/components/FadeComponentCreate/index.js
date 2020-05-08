@@ -40,7 +40,7 @@ function FadeComponent({ handleClose }) {
   const { createObject } = useContext(DashboardContext);
   const [distributor, setDistributor] = useState("");
   const [amount, setAmount] = useState(0);
-  const [taxeSale, setTaxeSale] = useState(0);
+  const [taxeSale, setTaxeSale] = useState("18,5");
   const [valueUnitary, setValueUnitary] = useState(0);
   const classes = useStyles();
 

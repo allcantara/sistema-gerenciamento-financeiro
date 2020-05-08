@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -7,10 +7,13 @@ import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import Typography from "@material-ui/core/Typography";
+import api from "../../../../../../services/api";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+
+import { DashboardContext } from "../../../../Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   inputs: {
@@ -36,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FadeComponent({ product: item, handleClose }) {
+  const { showMessage, updateDashboad, getListSales } = useContext(
+    DashboardContext
+  );
   const [date, setDate] = useState(new Date());
   const [distributor, setDistributor] = useState("");
   const [amount, setAmount] = useState(0);
@@ -62,8 +68,24 @@ function FadeComponent({ product: item, handleClose }) {
     handleClose();
   };
 
-  const handleDelete = () => {
-    handleClose();
+  const handleDelete = async () => {
+    try {
+      const response = await api.delete(`/sales/${item._id}`);
+      if (response.status !== 200) {
+        showMessage("Falha ao excluir!", "warning");
+        handleClose();
+        return;
+      }
+
+      showMessage("Venda excluída!", "success");
+      updateDashboad();
+      getListSales();
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      showMessage("Falha ao excluir!", "error");
+      handleClose();
+    }
   };
 
   return (

@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import Table from "@material-ui/core/Table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { useSnackbar } from "notistack";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -11,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import api from "../../../services/api";
 
 import {
   TableToolbarComponent,
@@ -56,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableComponent() {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
@@ -63,23 +68,21 @@ export default function TableComponent() {
   const [rows, setRows] = useState([]);
   const [emptyRows, setEmptyRows] = useState(0);
 
-  function createObject(total, date, isTaxes) {
-    let object = {};
-    let list = rows;
-    const tax = 6;
-    object.total = total;
-    object.date = date;
-    object.tax = tax;
-    object.taxeSale = total * (tax / 100);
-    object.isTaxes = isTaxes;
-    list.push(object);
-    setRows([...list]);
+  async function getListTaxes() {
+    try {
+      const response = await api.get("/taxes");
+      if (response.status !== 200) {
+        showMessage("Falha ao buscar os impostos!", "error");
+        return;
+      }
+      setRows([...response.data]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    createObject(1200, new Date(), true);
-    createObject(1340, new Date(), false);
-    createObject(960, new Date(), true);
+    getListTaxes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -102,12 +105,34 @@ export default function TableComponent() {
     );
   }, [page, rows.length, rowsPerPage]);
 
+  const showMessage = (message, variant) => {
+    enqueueSnackbar(message, {
+      variant, // success, error, info, warning...
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "center",
+      }, // Localização em que a mensagem irá aparecer...
+      action: (
+        <button
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+          }}
+          onClick={() => closeSnackbar()}
+        >
+          <FontAwesomeIcon icon={faWindowClose} color="#fff" />
+        </button>
+      ),
+    });
+  };
+
   return (
     <ProductContext.Provider
       value={{
         rows,
         setRows,
-        createObject,
+        getListTaxes,
+        showMessage,
       }}
     >
       <div className={classes.root}>

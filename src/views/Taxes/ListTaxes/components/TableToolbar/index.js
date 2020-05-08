@@ -93,7 +93,9 @@ function TableToolbar() {
 
     const listFilter = list.filter((row) => {
       let [{ number }] = listMonths.filter((item) => item.month === month);
-      return row.isTaxes === taxe && row.date.getMonth() === number - 1;
+      return (
+        row.isTaxes === taxe && new Date(row.date).getMonth() === number - 1
+      );
     });
     setRows([...listFilter]);
   };

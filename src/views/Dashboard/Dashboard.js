@@ -1,4 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { useSnackbar } from "notistack";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 
@@ -10,7 +13,9 @@ import {
   ListProducts,
 } from "./components";
 
-import { AppContext } from '../../App'
+import api from "../../services/api";
+
+import { AppContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,57 +23,94 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export const DashboardContext = createContext();
 
 const Dashboard = () => {
   const classes = useStyles();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [rows, setRows] = useState([]);
-  /*const [totalSales, setTotalSales] = useState(0);
-  const [totalTaxes, setTotalTaxes] = useState(0);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [totalProfit, setTotalProfit] = useState(0);*/
 
   const {
     updateDashboad,
     totalSales,
     totalTaxes,
     totalProducts,
-    totalProfit
-  } = useContext(AppContext)
+    totalProfit,
+  } = useContext(AppContext);
 
-  /*useEffect(() => {
-    updateDashboad();
-  }, []);*/
+  async function createObject(
+    distributor,
+    valueUnitary,
+    amount,
+    taxeSale,
+    date
+  ) {
+    try {
+      const data = {
+        user_id: localStorage.getItem("ID_USER"),
+        distributor,
+        valueUnitary,
+        amount,
+        taxeSale,
+        date,
+      };
+      const response = await api.post("/sales", data);
+      if (response.status !== 200) {
+        showMessage("Falha ao listar as vendas!", "warning");
+        return;
+      }
 
-  function createObject(distributor, valueUnitary, amount, taxeSale, date) {
-    let object = {};
-    let list = rows;
-    let valueLote = valueUnitary * 100;
-    object.valueLote = valueLote;
-    object.total = valueLote * amount;
-    object.distributor = distributor;
-    object.valueUnitary = valueUnitary;
-    object.amount = amount;
-    object.taxeSale = taxeSale;
-    object.date = date;
-    object.isTaxes = false;
-    list.push(object);
-    setRows([...list]);
+      setRows([...rows, response.data._doc]);
+      updateDashboad();
+    } catch (error) {
+      console.log(error);
+      showMessage("Ocorreu um erro na requisição!", "error");
+      return;
+    }
+  }
+
+  async function getListSales() {
+    try {
+      const response = await api.get("/sales");
+      if (response.status !== 200) {
+        showMessage("Falha ao listar as vendas!", "warning");
+        return;
+      }
+
+      setRows([...response.data]);
+    } catch (error) {
+      console.log(error);
+      showMessage("Ocorreu um erro na requisição!", "warning");
+      return;
+    }
   }
 
   useEffect(() => {
-    createObject("Bruno Alcântara", 2, 3, 10, new Date());
-    createObject("Ana Caroline", 2, 2, 18.5, new Date());
+    updateDashboad();
+    getListSales();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /*async function updateDashboad() {
-    setTotalProducts(300);
-    setTotalProfit(500);
-    setTotalSales(230);
-    setTotalTaxes(120);
-  }*/
+  const showMessage = (message, variant) => {
+    enqueueSnackbar(message, {
+      variant, // success, error, info, warning...
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "center",
+      }, // Localização em que a mensagem irá aparecer...
+      action: (
+        <button
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+          }}
+          onClick={() => closeSnackbar()}
+        >
+          <FontAwesomeIcon icon={faWindowClose} color="#fff" />
+        </button>
+      ),
+    });
+  };
 
   return (
     <DashboardContext.Provider
@@ -81,6 +123,8 @@ const Dashboard = () => {
         totalProducts,
         totalProfit,
         totalTaxes,
+        showMessage,
+        getListSales,
       }}
     >
       <div className={classes.root}>
