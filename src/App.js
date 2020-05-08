@@ -4,6 +4,8 @@ import { createBrowserHistory } from "history";
 import { Router } from "react-router-dom";
 import Routes from "./Routes";
 import api from "./services/api";
+import dotenv from "dotenv";
+dotenv.config();
 
 const browserHistory = createBrowserHistory();
 
