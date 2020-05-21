@@ -47,7 +47,7 @@ const Dashboard = () => {
   ) {
     try {
       const data = {
-        user_id: localStorage.getItem("ID_USER"),
+        user_id: getUserId(),
         distributor,
         valueUnitary,
         amount,
@@ -71,7 +71,7 @@ const Dashboard = () => {
 
   async function getListSales() {
     try {
-      const response = await api.get("/sales");
+      const response = await api.get(`/sales?user=${getUserId()}`);
       if (response.status !== 200) {
         showMessage("Falha ao listar as vendas!", "warning");
         return;
@@ -83,6 +83,10 @@ const Dashboard = () => {
       showMessage("Ocorreu um erro na requisição!", "warning");
       return;
     }
+  }
+
+  function getUserId() {
+    return localStorage.getItem("ID_USER");
   }
 
   useEffect(() => {

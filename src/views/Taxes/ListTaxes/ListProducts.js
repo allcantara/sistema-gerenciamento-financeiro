@@ -70,7 +70,9 @@ export default function TableComponent() {
 
   async function getListTaxes() {
     try {
-      const response = await api.get("/taxes");
+      const response = await api.get(
+        `/taxes?user=${localStorage.getItem("ID_USER")}`
+      );
       if (response.status !== 200) {
         showMessage("Falha ao buscar os impostos!", "error");
         return;
